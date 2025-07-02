@@ -14,6 +14,8 @@ For Income, see the [Income sample app](https://github.com/plaid/income-sample).
 
 For a more in-depth Transfer Quickstart, see the [Transfer Quickstart](https://github.com/plaid/transfer-quickstart) (Node only).
 
+For a more in-depth Transactions tutorial, see the [Transactions tutorial](https://github.com/plaid/tutorial-resources/tree/main/transactions) (Node only).
+
 ![Plaid quickstart app](/assets/quickstart.jpeg)
 
 ## Table of contents
@@ -173,9 +175,9 @@ A community-supported implementation of the Plaid Quickstart using the [Going.Pl
 #### 2. Running the frontend
 
 ```bash
-$ cd ./frontend
-$ npm ci
-$ npm start
+cd ./frontend
+npm ci
+npm start
 ```
 
 ### Run with Docker
@@ -228,12 +230,22 @@ make stop language=node
 
 ## Test credentials
 
-In Sandbox, you can log in to any supported institution (except Capital One) using `user_good` as the username and `pass_good` as the password. If prompted to enter a 2-factor authentication code, enter `1234`.
+In Sandbox, you can log in to any supported institution using `user_good` as the username and `pass_good` as the password. If prompted to enter a 2-factor authentication code, enter `1234`. In Production, use real-life credentials.
 
-In Production, use real-life credentials.
+### Transactions test credentials
+For Transactions, you will get the most realistic results using `user_transactions_dynamic` as the username, and any non-blank string as the password. For more details on the special capabilities of this test user, see the [docs](https://plaid.com/docs/transactions/transactions-data/#testing-pending-and-posted-transactions).
+
+### Credit test credentials
+For credit and underwriting products like Assets and Statements, you will get the most realistic results using one of the [credit and underwriting tests credentials](https://plaid.com/docs/sandbox/test-credentials/#credit-and-income-testing-credentials), like `user_bank_income` / `{}`.
 
 ## Troubleshooting
 
+### Link fails in Production with "something went wrong" / `INVALID_SERVER_ERROR` but works in Sandbox
+
+If Link works in Sandbox but fails in Production, the error is most likely one of the following:
+1) You need to set a use case for Link, which you can do in the Plaid Dashboard under [Link -> Customization -> Data Transparency Messaging](https://dashboard.plaid.com/link/data-transparency-v5).
+2) You don't yet have OAuth access for the institution you selected. This is especially common if the institution is Chase or Charles Schwab, which have longer OAuth registration turnarounds. To check your OAuth registration status and see if you have any required action items, see the [US OAuth Institutions page](https://dashboard.plaid.com/settings/compliance/us-oauth-institutions) in the Dashboard.
+   
 ### Can't get a link token, or API calls are 400ing
 
 View the server logs to see the associated error message with detailed troubleshooting instructions. If you can't view logs locally, view them via the [Dashboard activity logs](https://dashboard.plaid.com/activity/logs). 
